@@ -1,0 +1,2 @@
+play_book_dir: "/data/work/postgresql_12_auto_ansible"
+post_conf_dir: "/etc/postgresql/12/main"

@@ -1,0 +1,44 @@
+---
+- name: download Package postgresql
+  hosts: servers
+  become: yes
+  vars_files:
+    - /data/work/postgresql_12_auto_ansible/main.yml
+  tasks:
+    - name: postgresql apt 리포지토리 추가
+      shell: sh -c 'echo "deb https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+
+    - name: postgresql apt 리포지토리의 GPG 키 시스템에 추가
+      shell: 'wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -'
+
+    - name: 패키지 목록 업데이트
+      shell: 'apt update -y'
+
+    - name: postgresql 설치
+      shell: 'apt install -y postgresql-12'
+
+- name: postgresql make data_dir,init and conf_file cp
+  hosts: servers
+  become: yes
+  vars_files:
+    - /data/work/postgresql_12_auto_ansible/main.yml
+  tasks:
+    - name: postgresql Create data_dir
+      shell: "{{ play_book_dir }}/entrypoint.sh {{ play_book_dir }}"
+
+    - name: postgresql 동적 setup된 설정파일 복사
+      copy:
+        src: "{{ play_book_dir }}/{{ item }}"
+        dest: "{{ post_conf_dir }}/{{ item }}"
+      with_items:
+        - postgresql.conf
+        - pg_hba.conf
+
+- name: postgresql service restart
+  hosts: servers
+  become: yes
+  vars_files:
+    - /data/work/postgresql_12_auto_ansible/main.yml
+  tasks:
+    - name: postgresql service restart
+      shell: 'systemctl restart postgresql.service'
