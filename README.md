@@ -20,7 +20,7 @@
 
 ## 실행 방법
 
-1. `zpostgresql_deploy.yml` 플레이북을 실행하여 전체 파이프라인을 시작합니다.
+1. `postgresql_deploy.yml` 플레이북을 실행하여 전체 파이프라인을 시작합니다.
    ```sh
    ansible-playbook -i /data/work/postgresql_12_auto_ansible/hosts.ini /data/work/postgresql_12_auto_ansible/postgresql_deploy.yml
    ```
