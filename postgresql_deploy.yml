@@ -3,7 +3,7 @@
   hosts: servers
   become: yes
   vars_files:
-    - /data/postgresql_12_auto_ansible/main.yml
+    - /data/work/postgresql_12_ansible/main.yml
   tasks:
     - name: postgresql apt 리포지토리 추가
       shell: sh -c 'echo "deb https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
@@ -21,7 +21,7 @@
   hosts: servers
   become: yes
   vars_files:
-    - /data/postgresql_12_auto_ansible/main.yml
+    - /data/work/postgresql_12_ansible/main.yml
   tasks:
     - name: postgresql Create data_dir
       shell: "{{ play_book_dir }}/entrypoint.sh {{ play_book_dir }}"
@@ -38,7 +38,7 @@
   hosts: servers
   become: yes
   vars_files:
-    - /data/postgresql_12_auto_ansible/main.yml
+    - /data/work/postgresql_12_ansible/main.yml
   tasks:
     - name: postgresql service restart
       shell: 'systemctl restart postgresql.service'
